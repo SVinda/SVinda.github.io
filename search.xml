@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>Test-Images-6</title>
+      <link href="/2022/04/02/Test-Images-6/"/>
+      <url>/2022/04/02/Test-Images-6/</url>
+      
+        <content type="html"><![CDATA[<h2 id="Test-Images-6">Test-Images-6</h2><p>测试图片显示</p><p><img src="%E5%A4%B4%E5%83%8F.jpg" alt="头像"></p><p><img src="arrow_top_hover.png" alt="arrow_top_hover"></p><p>Test-Images-6</p><p><img src="art-car.png" alt="art-car"></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> test </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Test-Images-5</title>
+      <link href="/2022/04/01/Test-Images-5/"/>
+      <url>/2022/04/01/Test-Images-5/</url>
+      
+        <content type="html"><![CDATA[<h2 id="Test-Images-4-2">Test-Images-4</h2><p>测试图片显示</p><p>Test-Images-5</p><p><img src="art-car.png" alt="art-car"></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> test </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Test-Images-4</title>
+      <link href="/2022/04/01/Test-Images-4/"/>
+      <url>/2022/04/01/Test-Images-4/</url>
+      
+        <content type="html"><![CDATA[<h2 id="Test-Images-4">Test-Images-4</h2><p>测试图片显示</p><p><img src="nvm-install-nodejs-error.png" alt="nvm-install-nodejs-error"></p><p>Test-Images-4</p><p><img src="art.png" alt="art"></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> test </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hello World</title>
+      <link href="/2022/04/01/hello-world/"/>
+      <url>/2022/04/01/hello-world/</url>
+      
+        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start">Quick Start</h2><h3 id="Create-a-new-post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Test-Images-3</title>
+      <link href="/2022/04/01/Test-Images-3/"/>
+      <url>/2022/04/01/Test-Images-3/</url>
+      
+        <content type="html"><![CDATA[<h1>Test-Images-3</h1><p>测试图片显示</p><p><img src="hexo-theme.png" alt="hexo-theme"></p><p>Test-Images-3</p><p><img src="refresh_hover.png" alt="hexo-themeTest-Images-3"></p><p>end.</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> test </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Test-Images</title>
+      <link href="/2022/04/01/Test-images/"/>
+      <url>/2022/04/01/Test-images/</url>
+      
+        <content type="html"><![CDATA[<h2 id="Test-Images">Test-Images</h2><p>在另一个工作环境编写博客<br><img src="blog.png" alt="blog"><br><img src="blog-1.png" alt="blog-1"><br><img src="blog-2.png" alt="blog-2"></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> blog-env </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Edit-Blog-With-Another-Workspace</title>
+      <link href="/2022/04/01/Edit-Blog-With-Another-Workspace/"/>
+      <url>/2022/04/01/Edit-Blog-With-Another-Workspace/</url>
+      
+        <content type="html"><![CDATA[<h2 id="Edit-Blog-With-Another-Workspace">Edit-Blog-With-Another-Workspace</h2><p>在另一个工作环境编写博客<br><img src="blog.png" alt="blog"><br><img src="blog-1.png" alt="blog-1"><br><img src="blog-2.png" alt="blog-2"></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> blog-env </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>
