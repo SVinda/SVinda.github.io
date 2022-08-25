@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title></title>
+      <link href="/2022/08/26/OpenSourceProjects/Firefox/mozilla_source_build_with_visualstudio2019/"/>
+      <url>/2022/08/26/OpenSourceProjects/Firefox/mozilla_source_build_with_visualstudio2019/</url>
+      
+        <content type="html"><![CDATA[<h1>VS2019编译调试火狐浏览器源码</h1><h2 id="官方提供的编译文档">官方提供的编译文档</h2><blockquote><p>注意：官方提供的编译文档会更新，以下方法可能不适用于最新的源码编译方式</p></blockquote><p><a href="https://firefox-source-docs.mozilla.org/setup/windows_build.html">在Windows上构建Firefox</a><br><a href="https://firefox-source-docs.mozilla.org/build/buildsystem/visualstudio.html#visual-studio-projects">Visual Studio项目</a></p><h2 id="前期准备">前期准备</h2><ul><li>安装 <a href="https://visualstudio.microsoft.com/zh-hans/downloads/">Visual Studio</a></li><li>安装 <a href="https://www.rust-lang.org/zh-CN/tools/install">Rust</a></li><li>安装 <a href="https://ftp.mozilla.org/pub/mozilla.org/mozilla/libraries/win32/MozillaBuildSetup-Latest.exe">MozillaBuild</a></li></ul><h3 id="安装Rust">安装Rust</h3><p><img src="/assets/images/mozilla-build-8.png" alt="rust"><br><img src="/assets/images/mozilla-build-7.png" alt="rust version"></p><h3 id="启动shell">启动shell</h3><p>在安装完成MozillaBuild后启动start-shell.bat，以后的操作都将会在启动的shell中进行。</p><p><img src="/assets/images/mozilla-build-5.png" alt="start-shell.bat"></p><h2 id="在线下载源码">在线下载源码</h2><p>在shell中打开到指定的目录</p><p><img src="/assets/images/mozilla-build-6.png" alt="open source dir"></p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">$ hg <span class="built_in">clone</span> https://hg.mozilla.org/mozilla-central</span></span><br></pre></td></tr></table></figure><p>如果遇到shell请求输入，一路 y 下去就行了</p><h2 id="配置编译源码">配置编译源码</h2><blockquote><p>$ mach bootstrap</p><p>Please choose the version of Firefox you want to build:</p><ol><li>Firefox for Desktop Artifact Mode</li><li>Firefox for Desktop</li><li>GeckoView/Firefox for Android Artifact Mode</li><li>GeckoView/Firefox for Android</li></ol></blockquote><p>这里输入 2</p><p>重启 shell（start-shell.bat ），并打开到源码目录</p><p>执行配置</p><blockquote><p>$ mach configure</p></blockquote><p>使用VisualStudio作为编译工具</p><blockquote><p>$ mach build-backend -b VisualStudio</p></blockquote><p>生成解决方案（.sln）目录如下：</p><p><img src="/assets/images/mozilla-build-9.png" alt="sln"></p><h2 id="使用VS2019编译源码">使用VS2019编译源码</h2><p>打开mozilla.sln</p><p><img src="/assets/images/mozilla-build-3.png" alt="mozilla vs"></p><p>生成解决方案，经过一两个小时即可得到编译文件：</p><p><img src="/assets/images/mozilla-build-10.png" alt="bin"></p><h2 id="调试">调试</h2><p>把<code>firefox.exe</code>项设置为启动项，按<code>F5</code>开始调试：</p><p><img src="/assets/images/mozilla-build-11.png" alt="debuging"></p><p>如果不知道程序入口在哪里，试试<code>F10</code>进入单步执行</p><p><img src="/assets/images/mozilla-build-12.png" alt="debuging"></p><p>程序入口</p><p><img src="/assets/images/mozilla-build-13.png" alt="debuging"></p><h3 id="调试窗口拖放">调试窗口拖放</h3><p>从程序入口调试，却找不到创建主窗口的代码</p><p><img src="/assets/images/mozilla-build-19.png" alt="debuging"></p><p>把firefox.exe附加到进程中</p><p><img src="/assets/images/mozilla-build-16.png" alt="debuging"><br><img src="/assets/images/mozilla-build-17.png" alt="debuging"></p><p>部分断点位置</p><p><img src="/assets/images/mozilla-build-14.png" alt="debuging"><br><img src="/assets/images/mozilla-build-15.png" alt="debuging"></p><p>如果遇到卡住了，那么如下图操作，然后重新启动调试-&gt;附加进程</p><p><img src="/assets/images/mozilla-build-18.png" alt="debuging"></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Hello World</title>
       <link href="/2022/08/26/Hexo-Blog/hello-world/"/>
       <url>/2022/08/26/Hexo-Blog/hello-world/</url>
