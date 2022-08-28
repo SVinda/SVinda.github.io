@@ -1,0 +1,235 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>C++ 编译器介绍 | Vinda's Blog</title><meta name="keywords" content="C++"><meta name="author" content="Vinda"><meta name="copyright" content="Vinda"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="GCC（GNU Compiler Collection） 官方网站: https:&#x2F;&#x2F;gcc.gnu.org GCC 有 Windows 移植版本，比较出名的就是 MinGW 和 TDM-GCC。 GNU 编译器套件（GNU Compiler Collection）包括 C、C++、Objective-C、Fortran、Java、Ada 和 Go 语言的前端，也包括了这些语言的库（如 libst">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ 编译器介绍">
+<meta property="og:url" content="https://svinda.github.io/2022/06/14/C++/C++%20%E7%BC%96%E8%AF%91%E5%99%A8%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:site_name" content="Vinda&#39;s Blog">
+<meta property="og:description" content="GCC（GNU Compiler Collection） 官方网站: https:&#x2F;&#x2F;gcc.gnu.org GCC 有 Windows 移植版本，比较出名的就是 MinGW 和 TDM-GCC。 GNU 编译器套件（GNU Compiler Collection）包括 C、C++、Objective-C、Fortran、Java、Ada 和 Go 语言的前端，也包括了这些语言的库（如 libst">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://svinda.github.io/img/avatar.jpg">
+<meta property="article:published_time" content="2022-06-14T08:52:14.000Z">
+<meta property="article:modified_time" content="2022-08-28T20:11:31.313Z">
+<meta property="article:author" content="Vinda">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://svinda.github.io/img/avatar.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://svinda.github.io/2022/06/14/C++/C++%20%E7%BC%96%E8%AF%91%E5%99%A8%E4%BB%8B%E7%BB%8D/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?7c5117dc3f15bc5a9f3d98c41f2a8335";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'C++ 编译器介绍',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-08-29 04:11:31'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.1.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">51</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">23</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Vinda's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">C++ 编译器介绍</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-06-14T08:52:14.000Z" title="发表于 2022-06-14 16:52:14">2022-06-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-08-28T20:11:31.313Z" title="更新于 2022-08-29 04:11:31">2022-08-29</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/C/">C++</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="C++ 编译器介绍"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><h2 id="GCC（GNU-Compiler-Collection）">GCC（GNU Compiler Collection）</h2>
+<p>官方网站: <a target="_blank" rel="noopener" href="https://gcc.gnu.org">https://gcc.gnu.org</a></p>
+<p>GCC 有 Windows 移植版本，比较出名的就是 MinGW 和 TDM-GCC。</p>
+<p>GNU 编译器套件（GNU Compiler Collection）包括 C、C++、Objective-C、Fortran、Java、Ada 和 Go 语言的前端，也包括了这些语言的库（如 libstdc++、libgcj 等等）。GCC 的初衷是为 GNU 操作系统专门编写的一款编译器。GNU 系统是彻底的自由软件。此处，“自由”的含义是它尊重用户的自由。</p>
+<h2 id="llvm-Clang">llvm+Clang</h2>
+<p>LLVM 官方网站：<a target="_blank" rel="noopener" href="http://llvm.org">http://llvm.org</a></p>
+<p>Clang 官方网站：<a target="_blank" rel="noopener" href="http://clang.llvm.org/get_started.html">http://clang.llvm.org/get_started.html</a></p>
+<p>LLVM 是构架编译器(compiler)的框架系统，以 C++编 写而成，用于优化以任意程序语言编写的程序的编译时间(compile-time)、链接时间(link-time)、运行时间(run-time)以及空闲时间(idle-time)，对开发者保持开放，并兼容已有脚本。LLVM 计划启动于 2000 年，最初由 University of Illinois at Urbana-Champaign 的 Chris Lattner 主持开展。2006 年 Chris Lattner 加盟 Apple Inc，并致力于 LLVM 在 Apple 开发体系中的应用。Apple 也是 LLVM 计划的主要资助者。</p>
+<p>Low Level Virtual Machine (LLVM) 是一个开源的编译器架构，它已经被成功应用到多个应用领域。Clang 是 LLVM 的一个编译器前端，它目前支持 C, C++, Objective-C 以及 Objective-C++ 等编程语言。Clang 对源程序进行词法分析和语义分析，并将分析结果转换为 Abstract Syntax Tree ( 抽象语法树 ) ，最后使用 LLVM 作为后端代码的生成器。</p>
+<p>Clang 的开发目标是提供一个可以替代 GCC 的前端编译器。与 GCC 相比，Clang 是一个重新设计的编译器前端，具有一系列优点，例如模块化，代码简单易懂，占用内存小以及容易扩展和重用等。由于 Clang 在设计上的优异性，使得 Clang 非常适合用于设计源代码级别的分析和转化工具。Clang 也已经被应用到一些重要的开发领域，如 Static Analysis 是一个基于 Clang 的静态代码分析工具。</p>
+<h2 id="Watcom-C-C">Watcom C/C++</h2>
+<p>官方网站：<a target="_blank" rel="noopener" href="http://www.openwatcom.org/index.php/Download">http://www.openwatcom.org/index.php/Download</a></p>
+<p>在 DOS 开发环境中，Watcom C/C++ 编译器 以编译后的 exe 运行高速而著称，且首个支持 Intel 80386 &quot;保护模式&quot;的编译器。于 90 年代中期，大批的雄心技术游戏(例如 Doom、Descent、Duke Nukem 3D 都以 Watcom C 写成）</p>
+<p>Watcom C/C++ 编译器、Watch Fortran 编译器 经已在不其先前所属公司 Sybase 售卖, 而被 SciTech 软件公司 作为 Open Watcom 开源包 发行。类似于其他的 开源编译器(例如 [GCC])项目，Watcom C 代码小而便携, 其编译器后端(代码生成器)的目标码可变。该编译器可在 DOS、OS/2、Windows 等操作系统上运行，并生成各种可运行的(不必是该操作系统的)代码。该编译器支持Novell NetWare 的 NLM 目标码。目前正进行 为 Linux[1] 、modern BSD (例如FreeBSD) 操作系统 重定目标码, 以便在 x86、PowerPC 及　其它处理器上运行。Open Watcom C/C++ 的 1.4 版于 2005 年 12 月发行，采用 Linux x86 为实验目标, 支持 NT、OS/2 等 host 平台. 曾有某被弃置的 QNX 版本，但其编译所须的库并未开源发行。当前最近的稳定版是 1.9 版，在 2010 年 6 月发行。</p>
+<h2 id="Digital-Mars">Digital Mars</h2>
+<p>官方网站：<a target="_blank" rel="noopener" href="http://www.digitalmars.com">http://www.digitalmars.com</a></p>
+<p>DigitalMars 是一款高性能的编译器，功能包含，快速编译/链接时、强大的优化技术、Contract 设计、完整的资源库、浏览 HTML 文档，反汇编、库、资源编译器等。命令行及 GUI 版本、教程、代码示例、在线更新、标准模板库等等。</p>
+<h2 id="MSVC系列">MSVC系列</h2>
+<p>与 Visual Studio 集成发布，微软自己的编译器，VS  是一个基本完整的开发工具集，它包括了整个软件生命周期中所需要的大部分工具，如 UML 工具、代码管控工具、集成开发环境（IDE）等等。所写的目标代码适用于微软支持的所有平台，包括 Microsoft Windows、Windows Mobile、Windows CE、.NET Framework、.NET Compact Framework 和 Microsoft Silverlight 及 Windows Phone。</p>
+<h2 id="Borland系列（turbo-c和Borland-C-）">Borland系列（turbo c和Borland C++）</h2>
+<p>Borland C++ Builder Compiler 是一个 BC 编译器。它是用来优化 BC 开发系统的工具。它包括最后版本的 ANSI/ISO C++ 语言的支持，包括 RTL，C++ 的 STL 框架结构支持。Turbo C（TC）是其早期的命令行编译器作品</p>
+<h2 id="Intel-C">Intel C++</h2>
+<p>Intel C++ Compiler （简称 icc 或 icl）是美国 Intel 公司开发的 C/C++ 编译器，适用于 Linux、Microsoft Windows 和 Mac OS X 操作系统。</p>
+<p>Intel 编译支持 IA-32、Intel 64、Itanium 2、Intel Atom 处理器和某些非 Intel 的兼容处理器（例如某些 AMD 处理器）。开发人员应当检查系统需求。适用于 IA-32 和 Intel 64 的 Intel C++ 编译器的主要特点是自动向量化器，它能够生成 SSE、SSE2 和 SSE3 的 SIMD 指令及其适用于 Intel 无线 MMX 和 MMX 2 的嵌入式变种。</p>
+<p>Intel C++ Compiler 进一步支持 OpenMP 3.0 和适用于对称多处理的自动并行化。借助于 Cluster OpenMP 的附加能力，编译器还可为分布存储多处理根据 OpenMP 指示自动生成消息传递接口调用。</p>
+<p>Intel C++ Compiler 可通过四种方式获得，它分别是 Intel Parallel Studio、Intel C++ Compiler 专业版、Intel 编译器套装和 Intel Cluster Toolkit 编译器版的一部分。该编译器的最新发布是 Intel C++ Compiler 14.0 版本</p>
+<h2 id="TCC-Tiny-C-Compiler">TCC(Tiny C Compiler)</h2>
+<p>官方网站：<a target="_blank" rel="noopener" href="http://bellard.org/tcc">http://bellard.org/tcc</a></p>
+<p>Tiny C Compiler（缩写为 TCC, tCc 或 TinyCC）用于 x86（16/32位）或是 x86-64（64位）系统的 C compiler，而开发者为 Fabrice Bellard。软件是设计用于低级电脑环境，或是于磁盘容量有限的空间中（1.44 磁片或是硬盘）。软件可以适用于 Windows、Linux、Unix 操作系统，而最新版本为 0.9.26（Feb 15, 2013）。TCC 是在 GNU 宽通用公共许可证（LGPL）协议规范下发布。作者是大神法布里斯·贝拉（FabriceBellard）。</p>
+<p>TCC符合ANSI C（C89/C90）规范，Tiny C Compiler Reference Documentation accessed on 2008-08-07 亦符合新版的 ISO C99 标准规范，与 GNU C 扩展的内嵌汇编语言（即 inline assembler，内联汇编大陆用语）功能汇编语言。</p>
+<p>而 Google Andriod 系统内亦曾经内置于其中，于 Andriod 2.0 版本中。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Vinda</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://svinda.github.io/2022/06/14/C++/C++%20%E7%BC%96%E8%AF%91%E5%99%A8%E4%BB%8B%E7%BB%8D/">https://svinda.github.io/2022/06/14/C++/C++%20%E7%BC%96%E8%AF%91%E5%99%A8%E4%BB%8B%E7%BB%8D/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://svinda.github.io" target="_blank">Vinda's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/C/">C++</a></div><div class="post_share"><div class="social-share" data-image="/img/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/07/04/OpenSourceProjects/VLC/VLC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-0-%E5%BA%8F/"><img class="prev-cover" src="/linear-gradient(20deg,%20#0062be,%20#925696,%20#cc426e,%20#fb0347)" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">VLC 源码分析：序</div></div></a></div><div class="next-post pull-right"><a href="/2022/05/24/Qt/QtExamples/Qt%E5%AE%9E%E6%88%98-QtSendMessage%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1/"><img class="next-cover" src="/linear-gradient(20deg,%20#0062be,%20#925696,%20#cc426e,%20#fb0347)" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Qt实战-Qt SendMessage 进程通信</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="lv-container" data-id="city" data-uid="MTAyMC80NTI0OS8yMTc2NA=="></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Vinda</div><div class="author-info__description">开到荼蘼</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">51</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">23</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/svinda"><i class="fab fa-github"></i><span>My GitHub</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎大家收藏我的博客！</div></div><div class="card-widget connection" id="connection"><div class="item-headline"><i class="fa fa-address-card"></i><span>联系方式</span></div><div class="item-content"><html><body>QQ&#58; 210968619<br/>Email&#58; hwnd1024@163.com</body></html></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#GCC%EF%BC%88GNU-Compiler-Collection%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">GCC（GNU Compiler Collection）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#llvm-Clang"><span class="toc-number">2.</span> <span class="toc-text">llvm+Clang</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Watcom-C-C"><span class="toc-number">3.</span> <span class="toc-text">Watcom C&#x2F;C++</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Digital-Mars"><span class="toc-number">4.</span> <span class="toc-text">Digital Mars</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MSVC%E7%B3%BB%E5%88%97"><span class="toc-number">5.</span> <span class="toc-text">MSVC系列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Borland%E7%B3%BB%E5%88%97%EF%BC%88turbo-c%E5%92%8CBorland-C-%EF%BC%89"><span class="toc-number">6.</span> <span class="toc-text">Borland系列（turbo c和Borland C++）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Intel-C"><span class="toc-number">7.</span> <span class="toc-text">Intel C++</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCC-Tiny-C-Compiler"><span class="toc-number">8.</span> <span class="toc-text">TCC(Tiny C Compiler)</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/29/C++/1.1.C++11-auto_decltype/" title="C++ 11：auto 和 decltype">C++ 11：auto 和 decltype</a><time datetime="2022-08-28T22:15:16.000Z" title="发表于 2022-08-29 06:15:16">2022-08-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/29/C++/1.2.C++11-default_delete/" title="C++ 11：default 和 delete">C++ 11：default 和 delete</a><time datetime="2022-08-28T22:15:16.000Z" title="发表于 2022-08-29 06:15:16">2022-08-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/29/C++/4.C++20/" title="C++ 20">C++ 20</a><time datetime="2022-08-28T20:23:05.000Z" title="发表于 2022-08-29 04:23:05">2022-08-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/29/C++/3.C++17/" title="C++ 17">C++ 17</a><time datetime="2022-08-28T20:23:05.000Z" title="发表于 2022-08-29 04:23:05">2022-08-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/29/C++/2.C++14/" title="C++ 14">C++ 14</a><time datetime="2022-08-28T20:15:16.000Z" title="发表于 2022-08-29 04:15:16">2022-08-29</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 By Vinda</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="httpshttps://github.com/svinda/">GitHub</a>!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.css"><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script><script>function loadLivere () {
+  if (typeof LivereTower === 'object') {
+    window.LivereTower.init()
+  }
+  else {
+    (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+    })(document, 'script');
+  }
+}
+
+if ('Livere' === 'Livere' || !true) {
+  if (true) btf.loadComment(document.getElementById('lv-container'), loadLivere)
+  else loadLivere()
+}
+else {
+  function loadOtherComment () {
+    loadLivere()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

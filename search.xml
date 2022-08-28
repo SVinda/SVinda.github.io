@@ -4,6 +4,168 @@
   
     
     <entry>
+      <title>C++ 11：auto 和 decltype</title>
+      <link href="/2022/08/29/C++/1.1.C++11-auto_decltype/"/>
+      <url>/2022/08/29/C++/1.1.C++11-auto_decltype/</url>
+      
+        <content type="html"><![CDATA[<p>auto<br>对于变量，指定要从它的初始化器自动推导出它的类型。<br>C++ 11 之前 auto 是用来存储类型指示符，而 C++ 11 之后是作为一个新的类型指示符来指示编译器，auto 声明变量的类型必须由编译器在编译期间推导而得<br>auto 并非是一种“类型”声明，而是一个类型声明时的“占位符”，编译器在编译时期会将 auto 替换为变量的实际类型。</p><p>decltype<br>检查实体的声明类型，或表达式的类型和值类别。</p><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="comment">//using namespace std;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// auto</span></span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">Func</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> <span class="number">2.2</span>; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 简化复杂类型变量声明时的代码</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Func1</span><span class="params">(std::vector&lt;std::string&gt;&amp; vs)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (std::vector&lt;std::string&gt;::iterator i = vs.<span class="built_in">begin</span>(); i &lt; vs.<span class="built_in">end</span>(); ++i) &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> i1 = vs.<span class="built_in">begin</span>(); i1 &lt; vs.<span class="built_in">end</span>(); ++i1) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//void Func2(auto x = 1) &#123;&#125; // error: auto函数参数，无法通过编译</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 对于结构体来说，非静态成员变量的类型不能是auto的</span></span><br><span class="line"><span class="comment">//struct str &#123; auto var = 10; &#125;; // error: auto非静态成员变量，无法通过编译</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// decltype</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">White</span> &#123;&#125;;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Black</span> &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// decltype 编译器从左往右进行推导</span></span><br><span class="line"><span class="comment">//template&lt;typename T1, typename T2&gt;</span></span><br><span class="line"><span class="comment">//decltype( t1 + t2) Sum(T1&amp; t1, T2&amp; t2)</span></span><br><span class="line"><span class="comment">//&#123;</span></span><br><span class="line"><span class="comment">//    return t1 + t2;</span></span><br><span class="line"><span class="comment">//&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T1, <span class="keyword">typename</span> T2&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">Sum</span><span class="params">(T1&amp; t1, T2&amp; t2)</span> -&gt; <span class="title">decltype</span><span class="params">(t1 + t2)</span> <span class="comment">// 追踪返回类型</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> t1 + t2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">double</span> <span class="title">Func1</span><span class="params">(<span class="type">int</span> i)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="type">double</span>)i + <span class="number">0.1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">Func1</span><span class="params">(<span class="type">double</span> i)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="type">int</span>)i;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">Forward</span><span class="params">(T t)</span> -&gt; <span class="title">decltype</span><span class="params">(Func1(t))</span> <span class="comment">// 可以实现参数和返回类型不同时的转发</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Func1</span>(t);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// auto</span></span><br><span class="line">    <span class="keyword">auto</span> name = <span class="string">&quot;aa&quot;</span>;</span><br><span class="line">    std::cout &lt;&lt; name &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">auto</span> x = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">auto</span> y = <span class="built_in">Func</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">m</span> &#123; <span class="type">int</span> i; &#125; str;</span><br><span class="line">    <span class="comment">//auto str1 = str; // str1的类型是 struct m</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// auto声明的变量必须被初始化</span></span><br><span class="line">    <span class="comment">//auto z; // error 无法推导，编译错误</span></span><br><span class="line">    <span class="comment">//z = x;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">auto</span> a&#123; <span class="number">1</span> &#125;;</span><br><span class="line">    <span class="keyword">auto</span> a1 = <span class="keyword">new</span> <span class="built_in">auto</span>(<span class="number">12</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//auto c[1] = &#123; 100 &#125;; // error: </span></span><br><span class="line">    <span class="comment">//vector&lt;auto&gt; vi = &#123; 1 &#125;; // error:</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// decltype</span></span><br><span class="line">    White w;</span><br><span class="line">    Black b;</span><br><span class="line">    std::cout &lt;&lt; <span class="built_in">typeid</span>(w).<span class="built_in">name</span>() &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="built_in">typeid</span>(b).<span class="built_in">name</span>() &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    White w1;</span><br><span class="line">    <span class="type">bool</span> w_b_sametype = (<span class="built_in">typeid</span>(w).<span class="built_in">hash_code</span>() == <span class="built_in">typeid</span>(b).<span class="built_in">hash_code</span>());</span><br><span class="line">    <span class="type">bool</span> w_w1_sametype = (<span class="built_in">typeid</span>(w).<span class="built_in">hash_code</span>() == <span class="built_in">typeid</span>(w1).<span class="built_in">hash_code</span>());</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;w b is same type: &quot;</span> &lt;&lt; (<span class="type">int</span>)w_b_sametype &lt;&lt; std::endl;</span><br><span class="line">    std::cout &lt;&lt; <span class="string">&quot;w w1 is same type: &quot;</span> &lt;&lt; (<span class="type">int</span>)w_w1_sametype &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    <span class="keyword">decltype</span>(i) j = <span class="number">0</span>;</span><br><span class="line">    std::cout &lt;&lt; <span class="built_in">typeid</span>(j).<span class="built_in">name</span>() &lt;&lt; std::endl; <span class="comment">// int</span></span><br><span class="line"></span><br><span class="line">    <span class="type">float</span> f;</span><br><span class="line">    <span class="type">double</span> d;</span><br><span class="line">    <span class="keyword">decltype</span>(f + d) c;</span><br><span class="line">    std::cout &lt;&lt; <span class="built_in">typeid</span>(c).<span class="built_in">name</span>() &lt;&lt; std::endl; <span class="comment">// double</span></span><br><span class="line"></span><br><span class="line">    std::vector&lt;<span class="type">int</span>&gt; vi;</span><br><span class="line">    <span class="function"><span class="keyword">typedef</span> <span class="title">decltype</span><span class="params">(vi.begin())</span> vitype</span>;</span><br><span class="line">    <span class="keyword">using</span> vitype1 = <span class="keyword">decltype</span>(vi.<span class="built_in">begin</span>());</span><br><span class="line">    <span class="keyword">for</span> (vitype i = vi.<span class="built_in">begin</span>(); i &lt; vi.<span class="built_in">end</span>(); ++i) &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> (vitype1 i = vi.<span class="built_in">begin</span>(); i &lt; vi.<span class="built_in">end</span>(); ++i) &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">decltype</span>(vi)::iterator i = vi.<span class="built_in">begin</span>(); i &lt; vi.<span class="built_in">end</span>(); ++i) &#123;&#125;</span><br><span class="line"></span><br><span class="line">    std::cout &lt;&lt; <span class="built_in">Forward</span>(<span class="number">2</span>) &lt;&lt; std::endl;   <span class="comment">// Func1(int i)</span></span><br><span class="line">    std::cout &lt;&lt; <span class="built_in">Forward</span>(<span class="number">2.3</span>) &lt;&lt; std::endl; <span class="comment">// Func1(double i)</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> C++ </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C++ Feature </tag>
+            
+            <tag> C++ 11 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>C++ 11：default 和 delete</title>
+      <link href="/2022/08/29/C++/1.2.C++11-default_delete/"/>
+      <url>/2022/08/29/C++/1.2.C++11-default_delete/</url>
+      
+        <content type="html"><![CDATA[<h2 id="defalut">defalut</h2><p>预置函数<br>显式预置的函数定义，只能用于特殊成员函数和比较运算符函数</p><blockquote><p>特殊成员函数<br>一些成员函数是特殊的：在某些环境下，即使用户不定义编译器也会定义它们。它们是：默认构造函数、复制构造函数、移动构造函数、复制赋值运算符、移动赋值运算符、析构函数。<br>特殊成员函数以及比较运算符(C++20 起)是仅有的能被预置的函数，即使用 = default 替代函数体进行定义。</p></blockquote><h2 id="delete">delete</h2><p>弃置函数<br>如果使用特殊语法 = delete ;取代函数体，那么该函数被定义为弃置的（deleted）。任何弃置函数的使用都是非良构的（程序无法编译）。这包含调用，包括显式（以函数调用运算符）及隐式（对弃置的重载运算符、特殊成员函数、分配函数等的调用），构成指向弃置函数的指针或成员指针，甚至是在不求值表达式中使用弃置函数。但是可以隐式 ODR 使用刚好被弃置的非纯虚成员函数。</p><p>如果函数被重载，那么首先进行重载决议，且只有在选择了弃置函数时程序才非良构：</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">sometype</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="type">void</span>* <span class="keyword">operator</span> <span class="title">new</span><span class="params">(std::<span class="type">size_t</span>)</span> </span>= <span class="keyword">delete</span>;</span><br><span class="line">    <span class="type">void</span>* <span class="keyword">operator</span> <span class="keyword">new</span>[](std::<span class="type">size_t</span>) = <span class="keyword">delete</span>;</span><br><span class="line">&#125;;</span><br><span class="line">sometype* p = <span class="keyword">new</span> sometype; <span class="comment">// 错误：尝试调用弃置的 sometype::operator new</span></span><br></pre></td></tr></table></figure><p>函数的弃置定义必须是翻译单元中的首条声明：已经声明过的函数不能声明为弃置的：</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">sometype</span> &#123; <span class="built_in">sometype</span>(); &#125;;</span><br><span class="line">sometype::<span class="built_in">sometype</span>() = <span class="keyword">delete</span>; <span class="comment">// 错误：必须在首条声明弃置</span></span><br></pre></td></tr></table></figure><p>由用户提供的函数</p><p>如果一个函数由用户声明且没有在它的首个声明被显式预置或显式弃置，那么它由用户提供。由用户提供的显式预置的函数（即在它的首个声明后被显式预置）在它被显式预置的地方定义；如果该函数被隐式定义为弃置的，那么程序非良构。需要为不断变化的代码库提供稳定的二进制接口的情况下，在函数的首个定义后再声明为预置可以保证执行效率，也能提供简明的定义。</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// trivial 的所有特殊成员函数都分别在它们的首个声明处被显式预置，</span></span><br><span class="line"><span class="comment">// 因此它们都不由用户提供</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">trivial</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">trivial</span>() = <span class="keyword">default</span>;</span><br><span class="line">    <span class="built_in">trivial</span>(<span class="type">const</span> trivial&amp;) = <span class="keyword">default</span>;</span><br><span class="line">    <span class="built_in">trivial</span>(trivial&amp;&amp;) = <span class="keyword">default</span>;</span><br><span class="line">    trivial&amp; <span class="keyword">operator</span>=(<span class="type">const</span> trivial&amp;) = <span class="keyword">default</span>;</span><br><span class="line">    trivial&amp; <span class="keyword">operator</span>=(trivial&amp;&amp;) = <span class="keyword">default</span>;</span><br><span class="line">    ~<span class="built_in">trivial</span>() = <span class="keyword">default</span>;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">nontrivial</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">nontrivial</span>(); <span class="comment">// 首个声明</span></span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 没有在首个声明处被显式预置，</span></span><br><span class="line"><span class="comment">// 因此该函数由用户提供并在此定义</span></span><br><span class="line">nontrivial::<span class="built_in">nontrivial</span>() = <span class="keyword">default</span>;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> C++ </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C++ Feature </tag>
+            
+            <tag> C++ 11 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>C++ 20</title>
+      <link href="/2022/08/29/C++/4.C++20/"/>
+      <url>/2022/08/29/C++/4.C++20/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> C++ </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C++ Feature </tag>
+            
+            <tag> C++ 20 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>C++ 17</title>
+      <link href="/2022/08/29/C++/3.C++17/"/>
+      <url>/2022/08/29/C++/3.C++17/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> C++ </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C++ Feature </tag>
+            
+            <tag> C++ 17 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>C++ 14</title>
+      <link href="/2022/08/29/C++/2.C++14/"/>
+      <url>/2022/08/29/C++/2.C++14/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> C++ </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C++ Feature </tag>
+            
+            <tag> C++ 14 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>C++ 11</title>
+      <link href="/2022/08/29/C++/1.C++11/"/>
+      <url>/2022/08/29/C++/1.C++11/</url>
+      
+        <content type="html"><![CDATA[<h2 id="auto-与-decltype">auto 与 decltype</h2><!-- <a href="#">Post not found: _posts-subpath/文章文件名（不要后缀） 文章标题（可选）</a> --><ul><li><a href="/2022/08/29/C++/1.1.C++11-auto_decltype/" title="C++ 11：auto 和 decltype">C++ 11：auto 和 decltype</a></li></ul><h2 id="default-与-delete">default 与 delete</h2><ul><li><a href="/2022/08/29/C++/1.2.C++11-default_delete/" title="C++ 11：default 和 delete">C++ 11：default 和 delete</a></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> C++ </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C++ Feature </tag>
+            
+            <tag> C++ 11 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>解决 GitHub 访问不了</title>
       <link href="/2022/08/28/GitHub/0.GitHub%E8%AE%BF%E9%97%AE%E4%B8%8D%E4%BA%86/"/>
       <url>/2022/08/28/GitHub/0.GitHub%E8%AE%BF%E9%97%AE%E4%B8%8D%E4%BA%86/</url>
@@ -183,6 +345,31 @@
             <tag> 源码分析 </tag>
             
             <tag> vlc </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>C++ 编译器介绍</title>
+      <link href="/2022/06/14/C++/C++%20%E7%BC%96%E8%AF%91%E5%99%A8%E4%BB%8B%E7%BB%8D/"/>
+      <url>/2022/06/14/C++/C++%20%E7%BC%96%E8%AF%91%E5%99%A8%E4%BB%8B%E7%BB%8D/</url>
+      
+        <content type="html"><![CDATA[<h2 id="GCC（GNU-Compiler-Collection）">GCC（GNU Compiler Collection）</h2><p>官方网站: <a href="https://gcc.gnu.org">https://gcc.gnu.org</a></p><p>GCC 有 Windows 移植版本，比较出名的就是 MinGW 和 TDM-GCC。</p><p>GNU 编译器套件（GNU Compiler Collection）包括 C、C++、Objective-C、Fortran、Java、Ada 和 Go 语言的前端，也包括了这些语言的库（如 libstdc++、libgcj 等等）。GCC 的初衷是为 GNU 操作系统专门编写的一款编译器。GNU 系统是彻底的自由软件。此处，“自由”的含义是它尊重用户的自由。</p><h2 id="llvm-Clang">llvm+Clang</h2><p>LLVM 官方网站：<a href="http://llvm.org">http://llvm.org</a></p><p>Clang 官方网站：<a href="http://clang.llvm.org/get_started.html">http://clang.llvm.org/get_started.html</a></p><p>LLVM 是构架编译器(compiler)的框架系统，以 C++编 写而成，用于优化以任意程序语言编写的程序的编译时间(compile-time)、链接时间(link-time)、运行时间(run-time)以及空闲时间(idle-time)，对开发者保持开放，并兼容已有脚本。LLVM 计划启动于 2000 年，最初由 University of Illinois at Urbana-Champaign 的 Chris Lattner 主持开展。2006 年 Chris Lattner 加盟 Apple Inc，并致力于 LLVM 在 Apple 开发体系中的应用。Apple 也是 LLVM 计划的主要资助者。</p><p>Low Level Virtual Machine (LLVM) 是一个开源的编译器架构，它已经被成功应用到多个应用领域。Clang 是 LLVM 的一个编译器前端，它目前支持 C, C++, Objective-C 以及 Objective-C++ 等编程语言。Clang 对源程序进行词法分析和语义分析，并将分析结果转换为 Abstract Syntax Tree ( 抽象语法树 ) ，最后使用 LLVM 作为后端代码的生成器。</p><p>Clang 的开发目标是提供一个可以替代 GCC 的前端编译器。与 GCC 相比，Clang 是一个重新设计的编译器前端，具有一系列优点，例如模块化，代码简单易懂，占用内存小以及容易扩展和重用等。由于 Clang 在设计上的优异性，使得 Clang 非常适合用于设计源代码级别的分析和转化工具。Clang 也已经被应用到一些重要的开发领域，如 Static Analysis 是一个基于 Clang 的静态代码分析工具。</p><h2 id="Watcom-C-C">Watcom C/C++</h2><p>官方网站：<a href="http://www.openwatcom.org/index.php/Download">http://www.openwatcom.org/index.php/Download</a></p><p>在 DOS 开发环境中，Watcom C/C++ 编译器 以编译后的 exe 运行高速而著称，且首个支持 Intel 80386 &quot;保护模式&quot;的编译器。于 90 年代中期，大批的雄心技术游戏(例如 Doom、Descent、Duke Nukem 3D 都以 Watcom C 写成）</p><p>Watcom C/C++ 编译器、Watch Fortran 编译器 经已在不其先前所属公司 Sybase 售卖, 而被 SciTech 软件公司 作为 Open Watcom 开源包 发行。类似于其他的 开源编译器(例如 [GCC])项目，Watcom C 代码小而便携, 其编译器后端(代码生成器)的目标码可变。该编译器可在 DOS、OS/2、Windows 等操作系统上运行，并生成各种可运行的(不必是该操作系统的)代码。该编译器支持Novell NetWare 的 NLM 目标码。目前正进行 为 Linux[1] 、modern BSD (例如FreeBSD) 操作系统 重定目标码, 以便在 x86、PowerPC 及　其它处理器上运行。Open Watcom C/C++ 的 1.4 版于 2005 年 12 月发行，采用 Linux x86 为实验目标, 支持 NT、OS/2 等 host 平台. 曾有某被弃置的 QNX 版本，但其编译所须的库并未开源发行。当前最近的稳定版是 1.9 版，在 2010 年 6 月发行。</p><h2 id="Digital-Mars">Digital Mars</h2><p>官方网站：<a href="http://www.digitalmars.com">http://www.digitalmars.com</a></p><p>DigitalMars 是一款高性能的编译器，功能包含，快速编译/链接时、强大的优化技术、Contract 设计、完整的资源库、浏览 HTML 文档，反汇编、库、资源编译器等。命令行及 GUI 版本、教程、代码示例、在线更新、标准模板库等等。</p><h2 id="MSVC系列">MSVC系列</h2><p>与 Visual Studio 集成发布，微软自己的编译器，VS  是一个基本完整的开发工具集，它包括了整个软件生命周期中所需要的大部分工具，如 UML 工具、代码管控工具、集成开发环境（IDE）等等。所写的目标代码适用于微软支持的所有平台，包括 Microsoft Windows、Windows Mobile、Windows CE、.NET Framework、.NET Compact Framework 和 Microsoft Silverlight 及 Windows Phone。</p><h2 id="Borland系列（turbo-c和Borland-C-）">Borland系列（turbo c和Borland C++）</h2><p>Borland C++ Builder Compiler 是一个 BC 编译器。它是用来优化 BC 开发系统的工具。它包括最后版本的 ANSI/ISO C++ 语言的支持，包括 RTL，C++ 的 STL 框架结构支持。Turbo C（TC）是其早期的命令行编译器作品</p><h2 id="Intel-C">Intel C++</h2><p>Intel C++ Compiler （简称 icc 或 icl）是美国 Intel 公司开发的 C/C++ 编译器，适用于 Linux、Microsoft Windows 和 Mac OS X 操作系统。</p><p>Intel 编译支持 IA-32、Intel 64、Itanium 2、Intel Atom 处理器和某些非 Intel 的兼容处理器（例如某些 AMD 处理器）。开发人员应当检查系统需求。适用于 IA-32 和 Intel 64 的 Intel C++ 编译器的主要特点是自动向量化器，它能够生成 SSE、SSE2 和 SSE3 的 SIMD 指令及其适用于 Intel 无线 MMX 和 MMX 2 的嵌入式变种。</p><p>Intel C++ Compiler 进一步支持 OpenMP 3.0 和适用于对称多处理的自动并行化。借助于 Cluster OpenMP 的附加能力，编译器还可为分布存储多处理根据 OpenMP 指示自动生成消息传递接口调用。</p><p>Intel C++ Compiler 可通过四种方式获得，它分别是 Intel Parallel Studio、Intel C++ Compiler 专业版、Intel 编译器套装和 Intel Cluster Toolkit 编译器版的一部分。该编译器的最新发布是 Intel C++ Compiler 14.0 版本</p><h2 id="TCC-Tiny-C-Compiler">TCC(Tiny C Compiler)</h2><p>官方网站：<a href="http://bellard.org/tcc">http://bellard.org/tcc</a></p><p>Tiny C Compiler（缩写为 TCC, tCc 或 TinyCC）用于 x86（16/32位）或是 x86-64（64位）系统的 C compiler，而开发者为 Fabrice Bellard。软件是设计用于低级电脑环境，或是于磁盘容量有限的空间中（1.44 磁片或是硬盘）。软件可以适用于 Windows、Linux、Unix 操作系统，而最新版本为 0.9.26（Feb 15, 2013）。TCC 是在 GNU 宽通用公共许可证（LGPL）协议规范下发布。作者是大神法布里斯·贝拉（FabriceBellard）。</p><p>TCC符合ANSI C（C89/C90）规范，Tiny C Compiler Reference Documentation accessed on 2008-08-07 亦符合新版的 ISO C99 标准规范，与 GNU C 扩展的内嵌汇编语言（即 inline assembler，内联汇编大陆用语）功能汇编语言。</p><p>而 Google Andriod 系统内亦曾经内置于其中，于 Andriod 2.0 版本中。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> C++ </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C++ </tag>
             
         </tags>
       
@@ -459,7 +646,7 @@
       <link href="/2022/04/15/Hexo-Blog/%E5%86%99%E5%8D%9A%E5%AE%A2%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/"/>
       <url>/2022/04/15/Hexo-Blog/%E5%86%99%E5%8D%9A%E5%AE%A2%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/</url>
       
-        <content type="html"><![CDATA[<h2 id="标题">标题</h2><p>hexo 新建文章后自动生成的</p><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: xxxxx</span><br><span class="line">---</span><br></pre></td></tr></table></figure><p>其实就是一级标题</p><p><img src="/assets/images/Blog-header.png" alt="Blog-header"></p><h2 id="source-posts-文件夹">source/_posts 文件夹</h2><p>hexo 新建的文章自动生成在 source/_posts 文件夹下</p><p>可以通过手工把同一类文章放到同一个文件夹下（比如：Qt 相关的文章都移动到 Qt 文件夹内），而且通过 hexo 生成、部署后的网页并没有影响</p><h2 id="资源文件">资源文件</h2><p>在文章中引用的图片资源</p><p>可以统一放到资源文件夹 source/images，避免资源重复浪费空间、流量</p><p>在文章中通过 <code>![xxx](/assets/images/xxx.png)</code> 引用即可</p><h2 id="关于文章的一些约定">关于文章的一些约定</h2><ul><li>1.文章分类</li><li>2.文章标签</li><li>3.文章命名</li><li>4.文章配图命名</li></ul><h2 id="文章加载问题">文章加载问题</h2><ul><li><p>1.文章列表加载问题</p><p>网页加载慢，可以禁用文章列表图片</p>  <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-cover: /assets/images/logo/QtCreator.png</span><br><span class="line">cover: false</span><br></pre></td></tr></table></figure></li><li><p>2.文章内容加载问题</p><p>文章内容加载慢，可以减少文章配图，或者不用配图（有时候配图可以更加直观易懂）</p></li></ul>]]></content>
+        <content type="html"><![CDATA[<h2 id="标题">标题</h2><p>hexo 新建文章后自动生成的</p><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: xxxxx</span><br><span class="line">---</span><br></pre></td></tr></table></figure><p>其实就是一级标题</p><p><img src="/assets/images/Blog-header.png" alt="Blog-header"></p><h2 id="source-posts-文件夹">source/_posts 文件夹</h2><p>hexo 新建的文章自动生成在 source/_posts 文件夹下</p><p>可以通过手工把同一类文章放到同一个文件夹下（比如：Qt 相关的文章都移动到 Qt 文件夹内），而且通过 hexo 生成、部署后的网页并没有影响</p><h2 id="资源文件">资源文件</h2><p>在文章中引用的图片资源</p><p>可以统一放到资源文件夹 source/images，避免资源重复浪费空间、流量</p><p>在文章中通过 <code>![xxx](/assets/images/xxx.png)</code> 引用即可</p><h2 id="关于文章的一些约定">关于文章的一些约定</h2><ul><li>1.文章分类</li><li>2.文章标签</li><li>3.文章命名</li><li>4.文章配图命名</li><li>5.文章名称和标题不用一样</li></ul><h2 id="文章加载问题">文章加载问题</h2><ul><li><p>1.文章列表加载问题</p><p>网页加载慢，可以禁用文章列表图片</p>  <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-cover: /assets/images/logo/QtCreator.png</span><br><span class="line">cover: false</span><br></pre></td></tr></table></figure></li><li><p>2.文章内容加载问题</p><p>文章内容加载慢，可以减少文章配图，或者不用配图（有时候配图可以更加直观易懂）</p></li></ul>]]></content>
       
       
       
@@ -644,7 +831,7 @@
       <link href="/2022/04/05/OpenSourceProjects/QtCreator/QtCreator%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-0-%E5%BA%8F/"/>
       <url>/2022/04/05/OpenSourceProjects/QtCreator/QtCreator%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-0-%E5%BA%8F/</url>
       
-        <content type="html"><![CDATA[<h2 id="前言">前言</h2><p>有打算分析 Qt Creator 源码的想法已经很久了，偶尔也会写一点，但是断断续续……</p><p>在做项目期间也有使用 Qt Creator 源码里的插件系统。</p><p>本着学习和提升的目的，开始写 Qt Creator 源码分析文章。</p><h2 id="目录">目录</h2><!-- markdown 的语法在 Hexo 中不兼容[Qt Creator 源码分析-1-环境配置](../QtCreator源码分析-1-环境配置)[Qt Creator 源码分析-2-目录分析](../QtCreator源码分析-2-目录分析)[Qt Creator 源码分析-3-程序入口](../QtCreator源码分析-3-程序入口)[Qt Creator 源码分析-4-main() 函数分析](../QtCreator源码分析-4-main()函数分析)--><!-- <a href="#">Post not found: 文章文件名（不要后缀） 文章标题（可选）</a> --><ul><li><a href="#">Post not found: QtCreator源码分析-0-序 Qt Creator 源码分析-0-序</a></li><li><a href="#">Post not found: QtCreator源码分析-1-环境配置 Qt Creator 源码分析-1-环境配置</a></li><li><a href="#">Post not found: QtCreator源码分析-2-目录分析 Qt Creator 源码分析-2-目录分析</a></li><li><a href="#">Post not found: QtCreator源码分析-3-程序入口 Qt Creator 源码分析-3-程序入口</a></li><li><a href="#">Post not found: QtCreator源码分析-4-main()函数分析 Qt Creator 源码分析-4-main() 函数分析</a></li></ul>]]></content>
+        <content type="html"><![CDATA[<h2 id="前言">前言</h2><p>有打算分析 Qt Creator 源码的想法已经很久了，偶尔也会写一点，但是断断续续……</p><p>在做项目期间也有使用 Qt Creator 源码里的插件系统。</p><p>本着学习和提升的目的，开始写 Qt Creator 源码分析文章。</p><h2 id="目录">目录</h2><!-- markdown 的语法在 Hexo 中不兼容[Qt Creator 源码分析-1-环境配置](../QtCreator源码分析-1-环境配置)[Qt Creator 源码分析-2-目录分析](../QtCreator源码分析-2-目录分析)[Qt Creator 源码分析-3-程序入口](../QtCreator源码分析-3-程序入口)[Qt Creator 源码分析-4-main() 函数分析](../QtCreator源码分析-4-main()函数分析)--><!-- <a href="#">Post not found: _posts-subpath/文章文件名（不要后缀） 文章标题（可选）</a> --><ul><li><a href="/2022/04/05/OpenSourceProjects/QtCreator/QtCreator%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-0-%E5%BA%8F/" title="‘Qt Creator 源码分析-0-序‘">‘Qt Creator 源码分析-0-序‘</a></li><li><a href="/2022/04/05/OpenSourceProjects/QtCreator/QtCreator%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-1-%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" title="Qt Creator 源码分析-1-环境配置">Qt Creator 源码分析-1-环境配置</a></li><li><a href="/2022/04/05/OpenSourceProjects/QtCreator/QtCreator%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-2-%E7%9B%AE%E5%BD%95%E5%88%86%E6%9E%90/" title="Qt Creator 源码分析-2-目录分析">Qt Creator 源码分析-2-目录分析</a></li><li><a href="/2022/04/06/OpenSourceProjects/QtCreator/QtCreator%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-3-%E7%A8%8B%E5%BA%8F%E5%85%A5%E5%8F%A3/" title="Qt Creator 源码分析-3-程序入口">Qt Creator 源码分析-3-程序入口</a></li><li><a href="/2022/04/06/OpenSourceProjects/QtCreator/QtCreator%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-4-main()%E5%87%BD%E6%95%B0%E5%88%86%E6%9E%90/" title="Qt Creator 源码分析-4-main() 函数分析">Qt Creator 源码分析-4-main() 函数分析</a></li></ul>]]></content>
       
       
       <categories>
