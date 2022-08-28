@@ -35,7 +35,7 @@
       <link href="/2022/08/29/C++/1.2.C++11-default_delete/"/>
       <url>/2022/08/29/C++/1.2.C++11-default_delete/</url>
       
-        <content type="html"><![CDATA[<h2 id="defalut">defalut</h2><p>预置函数<br>显式预置的函数定义，只能用于特殊成员函数和比较运算符函数</p><blockquote><p>特殊成员函数<br>一些成员函数是特殊的：在某些环境下，即使用户不定义编译器也会定义它们。它们是：默认构造函数、复制构造函数、移动构造函数、复制赋值运算符、移动赋值运算符、析构函数。<br>特殊成员函数以及比较运算符(C++20 起)是仅有的能被预置的函数，即使用 = default 替代函数体进行定义。</p></blockquote><h2 id="delete">delete</h2><p>弃置函数<br>如果使用特殊语法 = delete ;取代函数体，那么该函数被定义为弃置的（deleted）。任何弃置函数的使用都是非良构的（程序无法编译）。这包含调用，包括显式（以函数调用运算符）及隐式（对弃置的重载运算符、特殊成员函数、分配函数等的调用），构成指向弃置函数的指针或成员指针，甚至是在不求值表达式中使用弃置函数。但是可以隐式 ODR 使用刚好被弃置的非纯虚成员函数。</p><p>如果函数被重载，那么首先进行重载决议，且只有在选择了弃置函数时程序才非良构：</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">sometype</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="type">void</span>* <span class="keyword">operator</span> <span class="title">new</span><span class="params">(std::<span class="type">size_t</span>)</span> </span>= <span class="keyword">delete</span>;</span><br><span class="line">    <span class="type">void</span>* <span class="keyword">operator</span> <span class="keyword">new</span>[](std::<span class="type">size_t</span>) = <span class="keyword">delete</span>;</span><br><span class="line">&#125;;</span><br><span class="line">sometype* p = <span class="keyword">new</span> sometype; <span class="comment">// 错误：尝试调用弃置的 sometype::operator new</span></span><br></pre></td></tr></table></figure><p>函数的弃置定义必须是翻译单元中的首条声明：已经声明过的函数不能声明为弃置的：</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">sometype</span> &#123; <span class="built_in">sometype</span>(); &#125;;</span><br><span class="line">sometype::<span class="built_in">sometype</span>() = <span class="keyword">delete</span>; <span class="comment">// 错误：必须在首条声明弃置</span></span><br></pre></td></tr></table></figure><p>由用户提供的函数</p><p>如果一个函数由用户声明且没有在它的首个声明被显式预置或显式弃置，那么它由用户提供。由用户提供的显式预置的函数（即在它的首个声明后被显式预置）在它被显式预置的地方定义；如果该函数被隐式定义为弃置的，那么程序非良构。需要为不断变化的代码库提供稳定的二进制接口的情况下，在函数的首个定义后再声明为预置可以保证执行效率，也能提供简明的定义。</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// trivial 的所有特殊成员函数都分别在它们的首个声明处被显式预置，</span></span><br><span class="line"><span class="comment">// 因此它们都不由用户提供</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">trivial</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">trivial</span>() = <span class="keyword">default</span>;</span><br><span class="line">    <span class="built_in">trivial</span>(<span class="type">const</span> trivial&amp;) = <span class="keyword">default</span>;</span><br><span class="line">    <span class="built_in">trivial</span>(trivial&amp;&amp;) = <span class="keyword">default</span>;</span><br><span class="line">    trivial&amp; <span class="keyword">operator</span>=(<span class="type">const</span> trivial&amp;) = <span class="keyword">default</span>;</span><br><span class="line">    trivial&amp; <span class="keyword">operator</span>=(trivial&amp;&amp;) = <span class="keyword">default</span>;</span><br><span class="line">    ~<span class="built_in">trivial</span>() = <span class="keyword">default</span>;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">nontrivial</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">nontrivial</span>(); <span class="comment">// 首个声明</span></span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 没有在首个声明处被显式预置，</span></span><br><span class="line"><span class="comment">// 因此该函数由用户提供并在此定义</span></span><br><span class="line">nontrivial::<span class="built_in">nontrivial</span>() = <span class="keyword">default</span>;</span><br></pre></td></tr></table></figure>]]></content>
+        <content type="html"><![CDATA[<h2 id="defalut">defalut</h2><p>预置函数<br>显式预置的函数定义，只能用于特殊成员函数和比较运算符函数</p><blockquote><p>特殊成员函数<br>一些成员函数是特殊的：在某些环境下，即使用户不定义编译器也会定义它们。它们是：</p><ul><li>默认构造函数</li><li>复制构造函数</li><li>移动构造函数</li><li>复制赋值运算符</li><li>移动赋值运算符</li><li>析构函数</li></ul><p>特殊成员函数以及比较运算符(C++20 起)是仅有的能被预置的函数，即使用 = default 替代函数体进行定义。</p></blockquote><h2 id="delete">delete</h2><p>弃置函数<br>如果使用特殊语法 = delete ;取代函数体，那么该函数被定义为弃置的（deleted）。任何弃置函数的使用都是非良构的（程序无法编译）。这包含调用，包括显式（以函数调用运算符）及隐式（对弃置的重载运算符、特殊成员函数、分配函数等的调用），构成指向弃置函数的指针或成员指针，甚至是在不求值表达式中使用弃置函数。但是可以隐式 ODR 使用刚好被弃置的非纯虚成员函数。</p><p>如果函数被重载，那么首先进行重载决议，且只有在选择了弃置函数时程序才非良构：</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">sometype</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="type">void</span>* <span class="keyword">operator</span> <span class="title">new</span><span class="params">(std::<span class="type">size_t</span>)</span> </span>= <span class="keyword">delete</span>;</span><br><span class="line">    <span class="type">void</span>* <span class="keyword">operator</span> <span class="keyword">new</span>[](std::<span class="type">size_t</span>) = <span class="keyword">delete</span>;</span><br><span class="line">&#125;;</span><br><span class="line">sometype* p = <span class="keyword">new</span> sometype; <span class="comment">// 错误：尝试调用弃置的 sometype::operator new</span></span><br></pre></td></tr></table></figure><p>函数的弃置定义必须是翻译单元中的首条声明：已经声明过的函数不能声明为弃置的：</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">sometype</span> &#123; <span class="built_in">sometype</span>(); &#125;;</span><br><span class="line">sometype::<span class="built_in">sometype</span>() = <span class="keyword">delete</span>; <span class="comment">// 错误：必须在首条声明弃置</span></span><br></pre></td></tr></table></figure><p>由用户提供的函数</p><p>如果一个函数由用户声明且没有在它的首个声明被显式预置或显式弃置，那么它由用户提供。由用户提供的显式预置的函数（即在它的首个声明后被显式预置）在它被显式预置的地方定义；如果该函数被隐式定义为弃置的，那么程序非良构。需要为不断变化的代码库提供稳定的二进制接口的情况下，在函数的首个定义后再声明为预置可以保证执行效率，也能提供简明的定义。</p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// trivial 的所有特殊成员函数都分别在它们的首个声明处被显式预置，</span></span><br><span class="line"><span class="comment">// 因此它们都不由用户提供</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">trivial</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">trivial</span>() = <span class="keyword">default</span>;</span><br><span class="line">    <span class="built_in">trivial</span>(<span class="type">const</span> trivial&amp;) = <span class="keyword">default</span>;</span><br><span class="line">    <span class="built_in">trivial</span>(trivial&amp;&amp;) = <span class="keyword">default</span>;</span><br><span class="line">    trivial&amp; <span class="keyword">operator</span>=(<span class="type">const</span> trivial&amp;) = <span class="keyword">default</span>;</span><br><span class="line">    trivial&amp; <span class="keyword">operator</span>=(trivial&amp;&amp;) = <span class="keyword">default</span>;</span><br><span class="line">    ~<span class="built_in">trivial</span>() = <span class="keyword">default</span>;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">nontrivial</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">nontrivial</span>(); <span class="comment">// 首个声明</span></span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// 没有在首个声明处被显式预置，</span></span><br><span class="line"><span class="comment">// 因此该函数由用户提供并在此定义</span></span><br><span class="line">nontrivial::<span class="built_in">nontrivial</span>() = <span class="keyword">default</span>;</span><br></pre></td></tr></table></figure>]]></content>
       
       
       <categories>
@@ -50,33 +50,6 @@
             <tag> C++ Feature </tag>
             
             <tag> C++ 11 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>C++ 20</title>
-      <link href="/2022/08/29/C++/4.C++20/"/>
-      <url>/2022/08/29/C++/4.C++20/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      <categories>
-          
-          <category> C++ </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> C++ Feature </tag>
-            
-            <tag> C++ 20 </tag>
             
         </tags>
       
@@ -112,9 +85,9 @@
     
     
     <entry>
-      <title>C++ 14</title>
-      <link href="/2022/08/29/C++/2.C++14/"/>
-      <url>/2022/08/29/C++/2.C++14/</url>
+      <title>C++ 20</title>
+      <link href="/2022/08/29/C++/4.C++20/"/>
+      <url>/2022/08/29/C++/4.C++20/</url>
       
         <content type="html"><![CDATA[]]></content>
       
@@ -130,7 +103,7 @@
             
             <tag> C++ Feature </tag>
             
-            <tag> C++ 14 </tag>
+            <tag> C++ 20 </tag>
             
         </tags>
       
@@ -158,6 +131,33 @@
             <tag> C++ Feature </tag>
             
             <tag> C++ 11 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>C++ 14</title>
+      <link href="/2022/08/29/C++/2.C++14/"/>
+      <url>/2022/08/29/C++/2.C++14/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> C++ </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> C++ Feature </tag>
+            
+            <tag> C++ 14 </tag>
             
         </tags>
       
@@ -1197,7 +1197,7 @@
       <link href="/2021/04/01/Hexo-Blog/Test-Images-5/"/>
       <url>/2021/04/01/Hexo-Blog/Test-Images-5/</url>
       
-        <content type="html"><![CDATA[<h2 id="Test-Images-4-2">Test-Images-4</h2><p>测试图片显示</p><p>Test-Images-5</p><p><img src="/assets/images/art-car.png" alt="art-car"></p>]]></content>
+        <content type="html"><![CDATA[<h2 id="Test-Images-4">Test-Images-4</h2><p>测试图片显示</p><p>Test-Images-5</p><p><img src="/assets/images/art-car.png" alt="art-car"></p>]]></content>
       
       
       
@@ -1216,7 +1216,7 @@
       <link href="/2021/04/01/Hexo-Blog/Test-Images-4/"/>
       <url>/2021/04/01/Hexo-Blog/Test-Images-4/</url>
       
-        <content type="html"><![CDATA[<h2 id="Test-Images-4">Test-Images-4</h2><p>测试图片显示</p><p><img src="/assets/images/nvm-install-nodejs-error.png" alt="nvm-install-nodejs-error"></p><p>Test-Images-4</p><p><img src="/assets/images/art.png" alt="art"></p>]]></content>
+        <content type="html"><![CDATA[<h2 id="Test-Images-4-2">Test-Images-4</h2><p>测试图片显示</p><p><img src="/assets/images/nvm-install-nodejs-error.png" alt="nvm-install-nodejs-error"></p><p>Test-Images-4</p><p><img src="/assets/images/art.png" alt="art"></p>]]></content>
       
       
       
