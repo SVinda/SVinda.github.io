@@ -85,33 +85,6 @@
     
     
     <entry>
-      <title>Tiled-1-编译</title>
-      <link href="/2022/07/04/OpenSourceProjects/Tiled/Tiled-1-%E7%BC%96%E8%AF%91/"/>
-      <url>/2022/07/04/OpenSourceProjects/Tiled/Tiled-1-%E7%BC%96%E8%AF%91/</url>
-      
-        <content type="html"><![CDATA[<h2 id="Tiled-源码分析：编译">Tiled 源码分析：编译</h2><h2 id="介绍">介绍</h2><p>Tiled 是一个 2D 级别的编辑器，可帮助您开发游戏内容。它的主要功能是编辑各种形式的平铺地图，但它也支持免费的图像放置以及功能强大的方式来注释游戏使用的额外信息的水平。<br><a href="https://doc.mapeditor.org/en/stable/manual/introduction/#getting-started">Tiled-introduction</a></p><p><img src="/assets/images/Tiled.png" alt="Tiled"></p><h2 id="源码">源码</h2><p><a href="https://github.com/mapeditor/tiled">github-tiled</a></p><h2 id="编译">编译</h2><p>使用 QtCreator 打开 <code>tiled.qbs</code> Build &amp; Run<br><img src="/assets/images/Tiled-build.png" alt="Tiled-build"></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> vlc </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 源码分析 </tag>
-            
-            <tag> Tiled </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>VLC源码分析-0-序</title>
       <link href="/2022/07/04/OpenSourceProjects/VLC/VLC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-0-%E5%BA%8F/"/>
       <url>/2022/07/04/OpenSourceProjects/VLC/VLC%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-0-%E5%BA%8F/</url>
@@ -131,6 +104,33 @@
             <tag> 源码分析 </tag>
             
             <tag> vlc </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Tiled-1-编译</title>
+      <link href="/2022/07/04/OpenSourceProjects/Tiled/Tiled-1-%E7%BC%96%E8%AF%91/"/>
+      <url>/2022/07/04/OpenSourceProjects/Tiled/Tiled-1-%E7%BC%96%E8%AF%91/</url>
+      
+        <content type="html"><![CDATA[<h2 id="Tiled-源码分析：编译">Tiled 源码分析：编译</h2><h2 id="介绍">介绍</h2><p>Tiled 是一个 2D 级别的编辑器，可帮助您开发游戏内容。它的主要功能是编辑各种形式的平铺地图，但它也支持免费的图像放置以及功能强大的方式来注释游戏使用的额外信息的水平。<br><a href="https://doc.mapeditor.org/en/stable/manual/introduction/#getting-started">Tiled-introduction</a></p><p><img src="/assets/images/Tiled.png" alt="Tiled"></p><h2 id="源码">源码</h2><p><a href="https://github.com/mapeditor/tiled">github-tiled</a></p><h2 id="编译">编译</h2><p>使用 QtCreator 打开 <code>tiled.qbs</code> Build &amp; Run<br><img src="/assets/images/Tiled-build.png" alt="Tiled-build"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> vlc </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 源码分析 </tag>
+            
+            <tag> Tiled </tag>
             
         </tags>
       
@@ -224,7 +224,7 @@
       <link href="/2022/04/22/Qt/QtProblems/Qt%E9%97%AE%E9%A2%98-%E5%BA%8F/"/>
       <url>/2022/04/22/Qt/QtProblems/Qt%E9%97%AE%E9%A2%98-%E5%BA%8F/</url>
       
-        <content type="html"><![CDATA[<p>Qt问题-序</p>]]></content>
+        <content type="html"><![CDATA[<h2 id="Qt问题-序">Qt问题-序</h2><p>记录在使用 Qt 过程中遇到的一些问题及解决办法。</p>]]></content>
       
       
       <categories>
@@ -748,7 +748,7 @@
       <link href="/2021/04/01/Hexo-Blog/Test-Images-5/"/>
       <url>/2021/04/01/Hexo-Blog/Test-Images-5/</url>
       
-        <content type="html"><![CDATA[<h2 id="Test-Images-4-2">Test-Images-4</h2><p>测试图片显示</p><p>Test-Images-5</p><p><img src="/assets/images/art-car.png" alt="art-car"></p>]]></content>
+        <content type="html"><![CDATA[<h2 id="Test-Images-4">Test-Images-4</h2><p>测试图片显示</p><p>Test-Images-5</p><p><img src="/assets/images/art-car.png" alt="art-car"></p>]]></content>
       
       
       
@@ -767,7 +767,7 @@
       <link href="/2021/04/01/Hexo-Blog/Test-Images-4/"/>
       <url>/2021/04/01/Hexo-Blog/Test-Images-4/</url>
       
-        <content type="html"><![CDATA[<h2 id="Test-Images-4">Test-Images-4</h2><p>测试图片显示</p><p><img src="/assets/images/nvm-install-nodejs-error.png" alt="nvm-install-nodejs-error"></p><p>Test-Images-4</p><p><img src="/assets/images/art.png" alt="art"></p>]]></content>
+        <content type="html"><![CDATA[<h2 id="Test-Images-4-2">Test-Images-4</h2><p>测试图片显示</p><p><img src="/assets/images/nvm-install-nodejs-error.png" alt="nvm-install-nodejs-error"></p><p>Test-Images-4</p><p><img src="/assets/images/art.png" alt="art"></p>]]></content>
       
       
       
